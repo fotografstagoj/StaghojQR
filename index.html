@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StaghojQR</title>
+<link rel="stylesheet" href="dist/staghojqr.css">
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:820px;margin:0 auto;padding:32px 20px;line-height:1.55}
+.demo{padding:24px;border:1px solid #ddd;border-radius:12px;margin:24px 0}
+code{background:#f3f3f3;padding:.15em .35em;border-radius:4px}
+</style>
+</head>
+<body>
+<h1>StaghojQR</h1>
+<p>A small, dependency-free JavaScript QR code engine.</p>
+<div class="demo">
+  <div id="qr" class="staghojqr staghojqr--md"></div>
+</div>
+<p>Version <code id="version"></code> · QR Version <code id="qrversion"></code> · Error correction <code id="ecc"></code></p>
+<script src="dist/staghojqr.js"></script>
+<script>
+StaghojQR.render(document.getElementById('qr'),'https://github.com/',{title:'StaghojQR demo'});
+document.getElementById('version').textContent=StaghojQR.version;
+document.getElementById('qrversion').textContent=StaghojQR.qrVersion;
+document.getElementById('ecc').textContent=StaghojQR.errorCorrection;
+</script>
+</body>
+</html>

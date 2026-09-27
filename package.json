@@ -1,0 +1,36 @@
+{
+  "name": "staghojqr",
+  "version": "2.0.1",
+  "description": "A small, dependency-free JavaScript QR code engine for websites and web applications.",
+  "main": "dist/staghojqr.js",
+  "browser": "dist/staghojqr.js",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "npm run check:js",
+    "check:js": "node --check src/staghojqr.js && node --check src/staghojqr-compat.js && node --check dist/staghojqr.js && node --check dist/staghojqr-compat.js"
+  },
+  "keywords": [
+    "qr",
+    "qrcode",
+    "qr-code",
+    "javascript",
+    "svg",
+    "png",
+    "browser",
+    "dependency-free"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR-USERNAME/StaghojQR.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR-USERNAME/StaghojQR/issues"
+  },
+  "homepage": "https://github.com/YOUR-USERNAME/StaghojQR#readme"
+}
