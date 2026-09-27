@@ -119,6 +119,27 @@ errorCorrection
 
 See [API documentation](docs/API.md).
 
+## CDN via jsDelivr
+
+StaghojQR can be loaded directly from a tagged GitHub release through jsDelivr:
+
+```html
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/fotografstagoj/StaghojQR@v2.0.1/dist/staghojqr.css">
+
+<script
+  src="https://cdn.jsdelivr.net/gh/fotografstagoj/StaghojQR@v2.0.1/dist/staghojqr.js"></script>
+```
+
+Pin an exact release such as `v2.0.1` in production. Avoid unversioned CDN URLs because future repository changes could alter what your site loads.
+
+Compatibility helper:
+
+```html
+<script
+  src="https://cdn.jsdelivr.net/gh/fotografstagoj/StaghojQR@v2.0.1/dist/staghojqr-compat.js"></script>
+```
+
 ## CSS
 
 The QR engine does not require CSS to generate valid codes.
