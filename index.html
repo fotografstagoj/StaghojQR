@@ -3,27 +3,323 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>StaghojQR</title>
+<meta name="description" content="StaghojQR is a small dependency-free JavaScript QR code engine with SVG, PNG and Canvas output.">
+<title>StaghojQR – JavaScript QR code engine</title>
 <link rel="stylesheet" href="dist/staghojqr.css">
 <style>
-body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:820px;margin:0 auto;padding:32px 20px;line-height:1.55}
-.demo{padding:24px;border:1px solid #ddd;border-radius:12px;margin:24px 0}
-code{background:#f3f3f3;padding:.15em .35em;border-radius:4px}
+:root{color-scheme:light;--bg:#f6f7f9;--card:#fff;--text:#15171a;--muted:#626a73;--line:#dfe3e8;--accent:#175cd3;--accent-dark:#1249aa;--code:#111827;--code-text:#e5e7eb;--ok:#166534;--warn:#9a3412}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--accent)}
+a:hover{color:var(--accent-dark)}
+.container{width:min(1100px,calc(100% - 32px));margin:0 auto}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.nav{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-weight:800;text-decoration:none;color:var(--text);font-size:1.12rem}
+.navlinks{display:flex;gap:16px;flex-wrap:wrap;font-size:.95rem}
+.navlinks a{text-decoration:none;color:var(--muted)}
+.hero{padding:72px 0 42px}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:36px;align-items:center}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.88rem;color:var(--muted)}
+h1{font-size:clamp(2.2rem,6vw,4.6rem);line-height:1.02;margin:18px 0}
+h2{font-size:clamp(1.55rem,3vw,2.15rem);margin:0 0 14px}
+h3{margin-top:0}
+.lead{font-size:1.16rem;color:var(--muted);max-width:780px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--accent);background:var(--accent);color:#fff;text-decoration:none;border-radius:9px;padding:10px 15px;font-weight:700;cursor:pointer;font:inherit}
+.button:hover{background:var(--accent-dark);color:#fff}
+.button.secondary{background:#fff;color:var(--accent)}
+.hero-card,.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.04)}
+.hero-card{padding:26px;text-align:center}
+section{padding:30px 0 54px}
+.card{padding:24px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.meta div{background:#f8fafc;border:1px solid var(--line);padding:10px;border-radius:10px}
+.meta strong{display:block;font-size:1.05rem}
+.meta span{color:var(--muted);font-size:.82rem}
+label{font-weight:700;display:block;margin-bottom:6px}
+input,select{width:100%;font:inherit;padding:10px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff}
+.form-row{display:grid;grid-template-columns:1fr 180px;gap:12px}
+.status{margin-top:8px;font-size:.9rem;color:var(--muted)}
+.status.error{color:#b42318}
+.qr-stage{display:flex;align-items:center;justify-content:center;min-height:310px;padding:22px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px}
+pre{overflow:auto;background:var(--code);color:var(--code-text);padding:17px;border-radius:11px;font-size:.89rem;line-height:1.5}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.inline-code{background:#eef2f6;padding:.16em .38em;border-radius:5px}
+.note{border-left:4px solid var(--accent);background:#eff6ff;padding:12px 14px;border-radius:8px;margin:16px 0}
+.warning{border-left-color:#ea580c;background:#fff7ed}
+.example-sizes{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap}
+.example-sizes figure{margin:0;text-align:center;color:var(--muted);font-size:.86rem}
+.custom-qr{width:220px;padding:10px;border:2px solid #111827;border-radius:16px;background:#fff}
+.brand-qr svg rect{fill:#fff!important}
+.brand-qr svg path{fill:#0f172a!important}
+footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);font-size:.92rem}
+@media(max-width:800px){.hero-grid,.grid-2,.grid-3,.form-row{grid-template-columns:1fr}.nav{align-items:flex-start;padding:12px 0}.navlinks{justify-content:flex-end}.hero{padding-top:42px}}
 </style>
 </head>
 <body>
-<h1>StaghojQR</h1>
-<p>A small, dependency-free JavaScript QR code engine.</p>
-<div class="demo">
-  <div id="qr" class="staghojqr staghojqr--md"></div>
-</div>
-<p>Version <code id="version"></code> · QR Version <code id="qrversion"></code> · Error correction <code id="ecc"></code></p>
+<header>
+  <div class="container nav">
+    <a class="brand" href="./">StaghojQR</a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="#demo">Demo</a>
+      <a href="#install">Install</a>
+      <a href="#css">CSS</a>
+      <a href="#api">API</a>
+      <a href="https://github.com/fotografstagoj/StaghojQR">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">Open source · MIT · v2.0.1</span>
+        <h1>Small QR engine. No external QR service.</h1>
+        <p class="lead">StaghojQR is a dependency-free JavaScript QR code engine for websites and web applications. It generates QR codes locally in the browser and supports SVG, PNG and Canvas output.</p>
+        <div class="actions">
+          <a class="button" href="#install">Get started</a>
+          <a class="button secondary" href="https://github.com/fotografstagoj/StaghojQR/releases/tag/v2.0.1">View release</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div id="heroQr" class="staghojqr staghojqr--md"></div>
+        <div class="meta">
+          <div><strong id="version"></strong><span>Version</span></div>
+          <div><strong id="qrversion"></strong><span>QR version</span></div>
+          <div><strong id="ecc"></strong><span>Error correction</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="container">
+      <h2>Interactive demo</h2>
+      <p>Enter a short URL or text. StaghojQR 2.0.1 supports a maximum payload of 58 UTF-8 bytes.</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="form-row">
+            <div>
+              <label for="qrText">QR content</label>
+              <input id="qrText" value="https://example.com" maxlength="200">
+            </div>
+            <div>
+              <label for="qrSize">Display size</label>
+              <select id="qrSize">
+                <option value="staghojqr--sm">Small · 160 px</option>
+                <option value="staghojqr--md" selected>Medium · 256 px</option>
+                <option value="staghojqr--lg">Large · 384 px</option>
+              </select>
+            </div>
+          </div>
+          <div id="byteStatus" class="status"></div>
+          <div class="actions">
+            <button class="button" id="renderBtn" type="button">Generate QR</button>
+            <button class="button secondary" id="svgBtn" type="button">Download SVG</button>
+            <button class="button secondary" id="pngBtn" type="button">Download PNG</button>
+          </div>
+          <div class="note warning"><strong>Payload limit:</strong> 58 UTF-8 bytes. Unicode characters can use more than one byte.</div>
+        </div>
+        <div class="card qr-stage">
+          <div id="demoQr" class="staghojqr staghojqr--md"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="container">
+      <h2>Installation</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Self-hosted</h3>
+          <p>Download the release or copy the files from <span class="inline-code">dist/</span> into your own project.</p>
+<pre><code>&lt;link rel="stylesheet" href="/assets/staghojqr.css"&gt;
+&lt;script src="/assets/staghojqr.js"&gt;&lt;/script&gt;
+
+&lt;div id="qr" class="staghojqr staghojqr--md"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+StaghojQR.render(
+  document.getElementById('qr'),
+  'https://example.com',
+  { title: 'Example QR code' }
+);
+&lt;/script&gt;</code></pre>
+        </div>
+
+        <div class="card">
+          <h3>CDN with jsDelivr</h3>
+          <p>Because the project is public on GitHub, jsDelivr can serve a tagged release directly. Pin the version in production instead of using an unversioned URL.</p>
+<pre><code>&lt;link rel="stylesheet"
+ href="https://cdn.jsdelivr.net/gh/fotografstagoj/StaghojQR@v2.0.1/dist/staghojqr.css"&gt;
+
+&lt;script
+ src="https://cdn.jsdelivr.net/gh/fotografstagoj/StaghojQR@v2.0.1/dist/staghojqr.js"&gt;&lt;/script&gt;</code></pre>
+          <p>Then use the same JavaScript API as with self-hosting.</p>
+          <div class="note"><strong>Recommended:</strong> use an exact tag such as <span class="inline-code">v2.0.1</span> so a future update does not unexpectedly change your production site.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="css">
+    <div class="container">
+      <h2>Styling with CSS</h2>
+      <p>The QR engine itself does not require CSS. The included stylesheet gives you responsive wrappers and three ready-made sizes. You can also add your own classes.</p>
+
+      <div class="card">
+        <h3>Built-in size classes</h3>
+<pre><code>&lt;div class="staghojqr staghojqr--sm"&gt;&lt;/div&gt;
+&lt;div class="staghojqr staghojqr--md"&gt;&lt;/div&gt;
+&lt;div class="staghojqr staghojqr--lg"&gt;&lt;/div&gt;</code></pre>
+        <div class="example-sizes">
+          <figure><div id="qrSm" class="staghojqr staghojqr--sm"></div><figcaption>Small · 160 px</figcaption></figure>
+          <figure><div id="qrMd" class="staghojqr staghojqr--md"></div><figcaption>Medium · 256 px</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card">
+          <h3>Custom width and container style</h3>
+<pre><code>.my-qr {
+  width: 220px;
+  padding: 10px;
+  border: 2px solid #111827;
+  border-radius: 16px;
+  background: white;
+}</code></pre>
+          <div id="qrCustom" class="staghojqr custom-qr"></div>
+        </div>
+
+        <div class="card">
+          <h3>Changing SVG colors</h3>
+          <p>The generated SVG uses a background rectangle and a module path. CSS can override their fill values.</p>
+<pre><code>.brand-qr svg rect {
+  fill: #fff !important;
+}
+
+.brand-qr svg path {
+  fill: #0f172a !important;
+}</code></pre>
+          <div id="qrBrand" class="staghojqr staghojqr--md brand-qr"></div>
+          <div class="note warning">Keep strong foreground/background contrast. Decorative color choices can reduce scanner reliability.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="api">
+    <div class="container">
+      <h2>Common API examples</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Render</h3>
+<pre><code>StaghojQR.render(
+  element,
+  'https://example.com',
+  { title: 'QR code' }
+);</code></pre>
+        </div>
+        <div class="card">
+          <h3>Download SVG</h3>
+<pre><code>StaghojQR.downloadSvg(
+  'https://example.com',
+  'example.svg'
+);</code></pre>
+        </div>
+        <div class="card">
+          <h3>Download PNG</h3>
+<pre><code>StaghojQR.downloadPng(
+  'https://example.com',
+  'example.png',
+  1024
+);</code></pre>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <h3>qrcode.js-style compatibility</h3>
+        <p>Load the compatibility helper after the main engine:</p>
+<pre><code>&lt;script src="dist/staghojqr.js"&gt;&lt;/script&gt;
+&lt;script src="dist/staghojqr-compat.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+new QRCode(document.getElementById('qr'), {
+  text: 'https://example.com',
+  title: 'Example QR code'
+});
+&lt;/script&gt;</code></pre>
+      </div>
+
+      <div class="note">
+        Full documentation: <a href="docs/API.md">API reference</a> ·
+        <a href="docs/INSTALLATION.md">Installation</a> ·
+        <a href="https://github.com/fotografstagoj/StaghojQR">GitHub repository</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">StaghojQR is released under the MIT License. QR generation happens locally in the browser.</div>
+</footer>
+
 <script src="dist/staghojqr.js"></script>
 <script>
-StaghojQR.render(document.getElementById('qr'),'https://github.com/',{title:'StaghojQR demo'});
+const defaultValue='https://example.com';
+
+function renderInto(id,value,title){
+  StaghojQR.render(document.getElementById(id),value,{title:title||'StaghojQR code'});
+}
+
+renderInto('heroQr','https://github.com/fotografstagoj/StaghojQR','StaghojQR GitHub repository');
+renderInto('demoQr',defaultValue,'Interactive StaghojQR demo');
+renderInto('qrSm','https://example.com','Small QR example');
+renderInto('qrMd','https://example.com','Medium QR example');
+renderInto('qrCustom','https://example.com','Custom styled QR example');
+renderInto('qrBrand','https://example.com','Color styled QR example');
+
 document.getElementById('version').textContent=StaghojQR.version;
 document.getElementById('qrversion').textContent=StaghojQR.qrVersion;
 document.getElementById('ecc').textContent=StaghojQR.errorCorrection;
+
+const textInput=document.getElementById('qrText');
+const sizeSelect=document.getElementById('qrSize');
+const demoQr=document.getElementById('demoQr');
+const byteStatus=document.getElementById('byteStatus');
+
+function bytes(value){return new TextEncoder().encode(value).length}
+
+function updateByteStatus(){
+  const count=bytes(textInput.value);
+  byteStatus.textContent=count+' / 58 UTF-8 bytes';
+  byteStatus.className='status'+(count>58?' error':'');
+  return count<=58;
+}
+
+function renderDemo(){
+  if(!updateByteStatus()) return;
+  demoQr.className='staghojqr '+sizeSelect.value;
+  try{
+    StaghojQR.render(demoQr,textInput.value,{title:'Interactive StaghojQR demo'});
+  }catch(error){
+    byteStatus.textContent=error.message;
+    byteStatus.className='status error';
+  }
+}
+
+textInput.addEventListener('input',updateByteStatus);
+sizeSelect.addEventListener('change',renderDemo);
+document.getElementById('renderBtn').addEventListener('click',renderDemo);
+document.getElementById('svgBtn').addEventListener('click',()=>{if(updateByteStatus())StaghojQR.downloadSvg(textInput.value,'staghojqr-demo.svg')});
+document.getElementById('pngBtn').addEventListener('click',()=>{if(updateByteStatus())StaghojQR.downloadPng(textInput.value,'staghojqr-demo.png',1024)});
+updateByteStatus();
 </script>
 </body>
 </html>
