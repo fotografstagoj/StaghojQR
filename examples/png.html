@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StaghojQR – PNG example</title></head>
+<body>
+<h1>PNG download</h1>
+<button id="download">Download PNG</button>
+<script src="../dist/staghojqr.js"></script>
+<script>
+document.getElementById('download').addEventListener('click', function () {
+  StaghojQR.downloadPng('https://example.com', 'example-qr.png', 1024);
+});
+</script>
+</body>
+</html>
