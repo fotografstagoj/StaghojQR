@@ -27,10 +27,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR-USERNAME/StaghojQR.git"
+    "url": "git+https://github.com/fotografstagoj/StaghojQR.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR-USERNAME/StaghojQR/issues"
+    "url": "https://github.com/fotografstagoj/StaghojQR/issues"
   },
-  "homepage": "https://github.com/YOUR-USERNAME/StaghojQR#readme"
+  "homepage": "https://github.com/fotografstagoj/StaghojQR#readme"
 }
