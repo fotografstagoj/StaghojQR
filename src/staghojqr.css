@@ -1,0 +1,11 @@
+/*
+ * StaghojQR presentation styles
+ *
+ * The QR engine itself does not require CSS.
+ * This stylesheet provides a convenient responsive wrapper for demos and apps.
+ */
+.staghojqr{display:inline-flex;align-items:center;justify-content:center;max-width:100%;line-height:0}
+.staghojqr>svg,.staghojqr>canvas{display:block;width:100%;height:auto;max-width:100%}
+.staghojqr--sm{width:160px}
+.staghojqr--md{width:256px}
+.staghojqr--lg{width:384px}
