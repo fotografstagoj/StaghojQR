@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StaghojQR – SVG example</title></head>
+<body>
+<h1>SVG output</h1>
+<div id="output"></div>
+<script src="../dist/staghojqr.js"></script>
+<script>
+document.getElementById('output').innerHTML =
+  StaghojQR.svg('https://example.com', { title: 'Example QR code' });
+</script>
+</body>
+</html>
