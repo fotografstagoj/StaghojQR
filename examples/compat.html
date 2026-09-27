@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StaghojQR – Compatibility example</title>
+<link rel="stylesheet" href="../dist/staghojqr.css"></head>
+<body>
+<h1>qrcode.js-style compatibility</h1>
+<div id="qr" class="staghojqr staghojqr--md"></div>
+<script src="../dist/staghojqr.js"></script>
+<script src="../dist/staghojqr-compat.js"></script>
+<script>
+new QRCode(document.getElementById('qr'), {
+  text: 'https://example.com',
+  title: 'Example QR code'
+});
+</script>
+</body>
+</html>
