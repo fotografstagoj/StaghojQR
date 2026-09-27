@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StaghojQR – Basic example</title>
+<link rel="stylesheet" href="../dist/staghojqr.css">
+</head>
+<body>
+<h1>StaghojQR basic example</h1>
+<div id="qr" class="staghojqr staghojqr--md"></div>
+<script src="../dist/staghojqr.js"></script>
+<script>
+StaghojQR.render(
+  document.getElementById('qr'),
+  'https://example.com',
+  { title: 'Example QR code' }
+);
+</script>
+</body>
+</html>
