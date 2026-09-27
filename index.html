@@ -68,6 +68,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);f
       <a href="#demo">Demo</a>
       <a href="#install">Install</a>
       <a href="#css">CSS</a>
+      <a href="#types">QR types</a>
       <a href="#api">API</a>
       <a href="https://github.com/fotografstagoj/StaghojQR">GitHub</a>
     </nav>
@@ -214,6 +215,73 @@ StaghojQR.render(
     </div>
   </section>
 
+  <section id="types">
+    <div class="container">
+      <h2>Common QR payload types</h2>
+      <p>StaghojQR encodes text. Phones and QR scanner apps can interpret well-known payload formats such as URLs, phone numbers, e-mail, SMS, Wi-Fi and geographic coordinates.</p>
+
+      <div class="note warning"><strong>Important:</strong> StaghojQR 2.0.1 still has a maximum payload of 58 UTF-8 bytes. Keep structured payloads short.</div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Website URL</h3>
+          <pre><code>https://example.com</code></pre>
+          <button class="button secondary type-demo" data-value="https://example.com">Try in demo</button>
+        </div>
+
+        <div class="card">
+          <h3>Phone call</h3>
+          <pre><code>tel:+4512345678</code></pre>
+          <button class="button secondary type-demo" data-value="tel:+4512345678">Try in demo</button>
+        </div>
+
+        <div class="card">
+          <h3>SMS</h3>
+          <pre><code>SMSTO:+4512345678:Hello</code></pre>
+          <button class="button secondary type-demo" data-value="SMSTO:+4512345678:Hello">Try in demo</button>
+        </div>
+
+        <div class="card">
+          <h3>E-mail</h3>
+          <pre><code>mailto:hello@example.com</code></pre>
+          <button class="button secondary type-demo" data-value="mailto:hello@example.com">Try in demo</button>
+        </div>
+
+        <div class="card">
+          <h3>Wi-Fi</h3>
+          <pre><code>WIFI:T:WPA;S:MyWiFi;P:secret123;;</code></pre>
+          <button class="button secondary type-demo" data-value="WIFI:T:WPA;S:MyWiFi;P:secret123;;">Try in demo</button>
+        </div>
+
+        <div class="card">
+          <h3>Location</h3>
+          <pre><code>geo:55.943,9.127</code></pre>
+          <button class="button secondary type-demo" data-value="geo:55.943,9.127">Try in demo</button>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card">
+          <h3>Short contact / vCard</h3>
+          <p>vCard works if the complete payload stays within 58 bytes. For longer contact cards, a future StaghojQR version with larger QR versions will be needed.</p>
+          <pre><code>BEGIN:VCARD
+VERSION:3.0
+FN:John
+TEL:+4512345678
+END:VCARD</code></pre>
+        </div>
+
+        <div class="card">
+          <h3>Custom application data</h3>
+          <p>You are not limited to built-in formats. Any short text can be encoded, including IDs, tokens, short commands or application-specific payloads.</p>
+          <pre><code>ORDER:12345
+EVENT:ABC123
+USER:42</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="api">
     <div class="container">
       <h2>Common API examples</h2>
@@ -319,6 +387,14 @@ sizeSelect.addEventListener('change',renderDemo);
 document.getElementById('renderBtn').addEventListener('click',renderDemo);
 document.getElementById('svgBtn').addEventListener('click',()=>{if(updateByteStatus())StaghojQR.downloadSvg(textInput.value,'staghojqr-demo.svg')});
 document.getElementById('pngBtn').addEventListener('click',()=>{if(updateByteStatus())StaghojQR.downloadPng(textInput.value,'staghojqr-demo.png',1024)});
+document.querySelectorAll('.type-demo').forEach(button=>{
+  button.addEventListener('click',()=>{
+    textInput.value=button.dataset.value||'';
+    renderDemo();
+    document.getElementById('demo').scrollIntoView({behavior:'smooth'});
+  });
+});
+
 updateByteStatus();
 </script>
 </body>
